@@ -1,0 +1,21 @@
+def bucket_sort(a):
+    n = len(a)
+    if n == 0:
+        return []
+    buckets = [[] for _ in range(n)]
+    for x in a:
+        index = min(n - 1, int(x * n))
+        buckets[index].append(x)
+    result = []
+    for bucket in buckets:
+        for i in range(1, len(bucket)):
+            key = bucket[i]
+            j = i - 1
+            while j >= 0 and bucket[j] > key:
+                bucket[j + 1] = bucket[j]
+                j -= 1
+            bucket[j + 1] = key
+        result += bucket
+    return result
+
+print(bucket_sort([0.42, 0.32, 0.23, 0.52]))
