@@ -1,0 +1,18 @@
+class TreeNode:
+    def __init__(self, value, left=None, right=None):
+        self.value, self.left, self.right = value, left, right
+
+def largest_bst(root):
+    def solve(node):
+        if not node:
+            return True, 0, float('inf'), float('-inf'), 0
+        lv, ls, lmin, lmax, lbest = solve(node.left)
+        rv, rs, rmin, rmax, rbest = solve(node.right)
+        if lv and rv and lmax < node.value < rmin:
+            size = ls + rs + 1
+            return True, size, min(lmin, node.value), max(rmax, node.value), size
+        return False, 0, float('-inf'), float('inf'), max(lbest, rbest)
+    return solve(root)[4]
+
+tree = TreeNode(10, TreeNode(5, TreeNode(1), TreeNode(8)), TreeNode(15))
+print(largest_bst(tree))
